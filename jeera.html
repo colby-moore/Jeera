@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge"> 
+	<title>vue shopping list</title>
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<script src="https://unpkg.com/vue@2.6.8/dist/vue.js"></script>
+
+</head>
+<style>
+
+</style>
+<body>
+	<div id="app">
+		<nav>
+			<h4>Jeera</h4>
+			<h1><a data-toggle="modal" data-target="#myModal">+</a></h1>
+		</nav>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="list morning col-lg-4 col-sm-12">
+					<p>Morning List {{ morningCounter}} </p>
+					<ul>
+						<li style="color:#444;" v-for="list in morningArray">
+							<input type="checkbox" name="" value="">
+							<a href="www.google.com" target="_blank">{{ list }}</a>
+							<button @click="removeTaskFromMorning(list)">X</button>
+						</li>
+					</ul>
+				</div>
+				<div class="list aftenoon col-lg-4 col-sm-12">
+					<p>Aftenoon List {{ afternoonCounter }} </p>
+					<ul>
+						<li style="color:#444;" v-for="list in afternoonArray">
+							<input type="checkbox" name="" value="">
+							<a href="www.google.com" target="_blank">{{ list }}</a>
+							<button @click="removeTaskFromAfternoon(list)">X</button>
+						</li>
+					</ul>
+				</div>
+				<div class="list night col-lg-4 col-sm-12">
+					<p>Night List {{ nightCounter }} </p>
+					<ul>
+						<li style="color:#444;" v-for="list in nightArray">
+							<input type="checkbox" name="" value="">
+							<a href="www.google.com" target="_blank">{{ list }}</a>
+							<button @click="removeTaskFromNight(list)">X</button>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<!-- This commented out code is the main list and buttons that were outside of the columns-->
+		<!-- <div class="main-menu">
+				
+			<label for="fname" style="color:#555;">Compiled List:</label>
+			<ul>
+				<li style="color:#444;" v-for="list in lists"><a href="www.google.com" target="_blank">{{ list }}</a></li>
+			</ul>
+			<input type="text" id="fname" name="firstname" placeholder="List.." v-model="taskName">
+			<button v-on:click="addMorningList">Morning Task</button>
+			<button v-on:click="addAfternoonList">Afternoon Task</button>
+			<button v-on:click="addNightList">Night Task</button>
+			<button v-on:click="addMainList">All Lists Task</button>
+		</div> -->
+
+		<div class="modal fade" id="myModal" role="dialog">
+			<div class="modal-dialog">
+			
+			  <!-- Modal content-->
+			  <div class="modal-content">
+				<div class="modal-header">
+				  <button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<ul>
+						<li style="color:#444;" v-for="list in lists"><a href="www.google.com" target="_blank">{{ list }}</a></li>
+					</ul>
+					<input class="task-summary" type="text" id="" name="" placeholder="Add a task for the day" v-model="taskName">
+					<!-- <button v-on:click="addMorningList">Morning Task</button>
+					<button v-on:click="addAfternoonList">Afternoon Task</button>
+					<button v-on:click="addNightList">Night Task</button> -->
+					<select v-model="boardSelection">
+						<option disabled value="">Please select one</option>
+						<option>Morning</option>
+						<option>Afternoon</option>
+						<option>Night</option>
+					</select>
+					
+					<span>Selected: {{ boardSelection }}</span>
+				</div>
+				<div class="modal-footer">
+					<button v-on:click="boardFilter">Create</button>
+				</div>
+			  </div>
+			  
+			</div>
+		  </div>
+
+	</div>
+
+	<script>
+		
+		new Vue({
+			
+			el: "#app",
+
+			data: {
+				
+				lists: [],
+
+				taskName: '',
+
+				morningArray: [],
+				morningCounter: 0,
+
+				afternoonArray: [],
+				afternoonCounter: 0,
+
+				nightArray: [],
+				nightCounter: 0,
+
+				boardSelection:'',
+
+			},
+
+			methods: {
+				boardFilter(){
+					if (this.boardSelection == "Morning"){
+						this.addMorningList();
+					}
+					else if(this.boardSelection == "Afternoon"){
+						this.addAfternoonList();
+					}
+					else if(this.boardSelection == "Night"){
+						this.addNightList();
+					}
+
+
+				},
+
+				addMainList() {
+					this.morningCounter++;
+					this.afternoonCounter++;
+					this.nightCounter++;
+					this.lists.push(this.taskName);
+					this.morningArray.push(this.taskName);
+					this.afternoonArray.push(this.taskName);
+					this.nightArray.push(this.taskName);
+					this.taskName = ''
+				},
+
+				addMorningList() {
+					this.morningCounter++;
+					this.morningArray.push(this.taskName);
+					this.lists.push(this.taskName);
+					this.taskName = ''
+				},
+
+				addAfternoonList() {
+					this.afternoonCounter++;
+					this.afternoonArray.push(this.taskName);
+					this.lists.push(this.taskName);
+					this.taskName = ''
+				},
+
+				addNightList() {
+					this.nightCounter++;
+					this.nightArray.push(this.taskName);
+					this.lists.push(this.taskName);
+					this.taskName = ''
+				},
+				removeTaskFromMorning (list) {
+					this.morningCounter--;
+					var index = this.morningArray.indexOf(list);
+					this.morningArray.splice(index, 1);
+					var index = this.lists.indexOf(list);
+					this.lists.splice(index, 1);
+				},
+				removeTaskFromAfternoon (list) {
+					this.afternoonCounter--;
+					var index = this.afternoonArray.indexOf(list);
+					this.afternoonArray.splice(index, 1);
+					var index = this.lists.indexOf(list);
+					this.lists.splice(index, 1);
+				},
+				removeTaskFromNight (list) {
+					this.nightCounter--;
+					var index = this.nightArray.indexOf(list);
+					this.nightArray.splice(index, 1);
+					var index = this.lists.indexOf(list);
+					this.lists.splice(index, 1);
+				},
+			}
+		})
+
+	</script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+</html>
