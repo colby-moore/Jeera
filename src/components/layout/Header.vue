@@ -1,6 +1,10 @@
 <template>
     <header class="header">
         <h1>Jeera2.0</h1>
+        <div id="nav">
+            <router-link to="/">Home</router-link> |
+            <router-link to="/about">About</router-link>
+        </div>
         <b-button class="modal-button" v-b-modal.modalAddItem><b>+</b></b-button>
     </header>
 </template>

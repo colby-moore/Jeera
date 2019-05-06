@@ -1,62 +1,20 @@
 <template>
   <div id="app">
     <Header />
-    <AddTodoItem v-on:parse-submit="approveItemAdd" />
-    <TodoList v-bind:todoList="todoList" v-on:del-items="deleteItems"/>
+    <router-view/>
   </div>
 </template>
 
 <script>
-import TodoList from './components/TodoList.vue';
 import Header from './components/layout/Header';
-import AddTodoItem from './components/AddTodoItem';
-import axios from 'axios';
-
-
 export default {
-  name: 'app',
+  name: "app",
   components: {
-    Header,
-    TodoList,
-    AddTodoItem
-  },
-  data() {
-    return{
-      todoList: [
-        // {
-        //   id: 1,
-        //   title: "Eat Breakfast",
-        //   completed: false
-        // },
-        // {
-        //   id: 2,
-        //   title: "Eat Lunch",
-        //   completed: true
-        // },
-        // {
-        //   id: 3,
-        //   title: "Eat Dinner",
-        //   completed: false
-        // }
-      ]
-    }
-  },
-        created(){
-      axios.get('https://jsonplaceholder.typicode.com/todos?_limit=5')
-        .then(Response => this.todoList = Response.data)
-        .catch(error => console.log(error));
-    },
-  methods: {
-    deleteItems(id){
-      this.todoList = this.todoList.filter(item => item.id !== id);
-    },
-    approveItemAdd(newTodoItem){
-      this.todoList = [...this.todoList, newTodoItem];
-    },
-
+    Header
   }
 }
 </script>
+
 
 <style>
  * {

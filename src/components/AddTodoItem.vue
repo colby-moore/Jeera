@@ -31,7 +31,6 @@
 </template>
 
 <script>
-import uuid from 'uuid';
 
 export default {
     name: "AddTodoItem",
@@ -43,7 +42,6 @@ export default {
     methods:{
         submitTodoItem() {
             const newTodoItem = {
-                id: uuid.v4(),
                 title: this.title,
                 completed: false,
             }
