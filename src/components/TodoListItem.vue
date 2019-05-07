@@ -3,7 +3,7 @@
         <p>
             <input type="checkbox" v-on:change="markComplete">
             {{items.title}}
-            <button @click="$emit('del-items', items.id)" class="del">X</button>
+            <button @click="$emit('del-items', items)" class="del">X</button>
         </p>
     </div>
 </template>
@@ -25,7 +25,10 @@ export default {
         margin-bottom: 0;
     }
     .todo-list-item{
-        background: #f4f4f4;
+        border-radius: 4px;
+        box-shadow: 0px 1px 2px 0px rgba(9, 30, 66, 0.25);
+        background: #fff;
+        margin-top: 10px;
         padding: 30px;
         border-bottom: 1px #ccc dotted;
     }

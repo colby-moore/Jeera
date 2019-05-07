@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <AddTodoItem v-on:parse-submit="approveItemAdd" />
-    <TodoList v-bind:todoList="todoList" v-on:del-items="deleteItems"/>
+    <TodoList v-bind:todoList="todoList" v-bind:columnCounters="columnCounters" v-on:del-items="deleteItems"/>
   </div>
 </template>
 
@@ -15,41 +15,92 @@ export default {
   name: 'Home',
   components: {
     TodoList,
-    AddTodoItem
+    AddTodoItem,
   },
   data() {
     return{
       todoList: [
-        // {
-        //   id: 1,
-        //   title: "Eat Breakfast",
-        //   completed: false
-        // },
-        // {
-        //   id: 2,
-        //   title: "Eat Lunch",
-        //   completed: true
-        // },
-        // {
-        //   id: 3,
-        //   title: "Eat Dinner",
-        //   completed: false
-        // }
-      ]
+        {
+          id: 1,
+          parentColumn: "In Progress",
+          title: "MW-1",
+          completed: false
+        },
+        {
+          id: 2,
+          parentColumn: "In Progress",
+          title: "MW-2",
+          completed: false
+        },
+        {
+          id: 3,
+          parentColumn: "In Progress",
+          title: "MW-3",
+          completed: false
+        },
+        {
+          id: 4,
+          parentColumn: "Ready For Deploy",
+          title: "MW-4",
+          completed: false
+        },
+        {
+          id: 5,
+          parentColumn: "Ready For Deploy",
+          title: "MW-5",
+          completed: false
+        },
+        {
+          id: 6,
+          parentColumn: "Ready For Review",
+          title: "MW-6",
+          completed: false
+        },
+        {
+          id: 7,
+          parentColumn: "Ready For Review",
+          title: "MW-7",
+          completed: false
+        }
+      ],
+      columnCounters: 
+      {
+        inProgressCounter: 0,
+        readyForDeployCounter: 0,
+        readyForReviewCounter: 0
+      }
     }
   },
   created(){
-    axios.get('https://jsonplaceholder.typicode.com/todos?_limit=5')
-      .then(Response => this.todoList = Response.data)
-      .catch(err => console.log(err));
+    // axios.get('https://jsonplaceholder.typicode.com/todos?_limit=5')
+    //   .then(Response => this.todoList = Response.data)
+    //   .catch(err => console.log(err));
   },
   methods: {
-    deleteItems(id){
-      this.todoList = this.todoList.filter(item => item.id !== id);
+    deleteItems(taskToDelete){
+      if(taskToDelete.parentColumn === 'In Progress'){
+        this.columnCounters.inProgressCounter--;
+      }
+      else if(taskToDelete.parentColumn === 'Ready For Deploy'){
+        this.columnCounters.readyForDeployCounter--;
+      }
+      else if(taskToDelete.parentColumn === 'Ready For Review'){
+        this.columnCounters.readyForReviewCounter--;
+      }
+      this.todoList = this.todoList.filter(item => item.id !== taskToDelete.id);
     },
     approveItemAdd(newTodoItem){
-      const {title, completed } = newTodoItem
+      // const {title, completed } = newTodoItem
       this.todoList = [...this.todoList, newTodoItem];
+      if(newTodoItem.parentColumn === 'In Progress'){
+        this.columnCounters.inProgressCounter++;
+      }
+      else if(newTodoItem.parentColumn === 'Ready For Deploy'){
+        this.columnCounters.readyForDeployCounter++;
+      }
+      else if(newTodoItem.parentColumn === 'Ready For Review'){
+        this.columnCounters.readyForReviewCounter++;
+      }
     },
 
   }

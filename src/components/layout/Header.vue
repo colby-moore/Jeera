@@ -1,8 +1,8 @@
 <template>
     <header class="header">
-        <h1>Jeera2.0</h1>
+        <h1><b>Jeera2.0</b></h1>
         <div id="nav">
-            <router-link to="/">Home</router-link> |
+            <router-link to="/">Kanban Board</router-link> |
             <router-link to="/about">About</router-link>
         </div>
         <b-button class="modal-button" v-b-modal.modalAddItem><b>+</b></b-button>
@@ -17,11 +17,15 @@ export default {
 </script>
 
 <style scoped>
+    h1{
+        font-size: 1.5rem;
+        margin-bottom: 0px;
+    }
     .header{
         display: flex;
         align-items: center;
         justify-content: space-between;
-        height: 70px;
+        height: 60px;
         background: #0747A6;
         color: #fff;
         padding: 10px;
