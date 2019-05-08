@@ -2,8 +2,8 @@
     <header class="header">
         <h1><b>Jeera2.0</b></h1>
         <div id="nav">
-            <router-link to="/">Kanban Board</router-link> |
-            <router-link to="/about">About</router-link>
+            <router-link to="/about">Home</router-link> |
+            <router-link to="/">Kanban Board</router-link> 
         </div>
         <b-button class="modal-button" v-b-modal.modalAddItem><b>+</b></b-button>
     </header>

@@ -78,16 +78,20 @@ export default {
   },
   methods: {
     deleteItems(taskToDelete){
-      if(taskToDelete.parentColumn === 'In Progress'){
-        this.columnCounters.inProgressCounter--;
+      if(taskToDelete.completed){
+        if(taskToDelete.parentColumn === 'In Progress'){
+          this.columnCounters.inProgressCounter--;
+        }
+        else if(taskToDelete.parentColumn === 'Ready For Deploy'){
+          this.columnCounters.readyForDeployCounter--;
+        }
+        else if(taskToDelete.parentColumn === 'Ready For Review'){
+          this.columnCounters.readyForReviewCounter--;
+        }
+
+        this.todoList = this.todoList.filter(item => item.id !== taskToDelete.id);
       }
-      else if(taskToDelete.parentColumn === 'Ready For Deploy'){
-        this.columnCounters.readyForDeployCounter--;
-      }
-      else if(taskToDelete.parentColumn === 'Ready For Review'){
-        this.columnCounters.readyForReviewCounter--;
-      }
-      this.todoList = this.todoList.filter(item => item.id !== taskToDelete.id);
+      
     },
     approveItemAdd(newTodoItem){
       // const {title, completed } = newTodoItem
